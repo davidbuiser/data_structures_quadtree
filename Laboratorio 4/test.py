@@ -15,30 +15,30 @@ entregas = [punto_al_azar() for _ in range(10000)]
 arbol = construir_quadtree(entregas)
 
 class PruebasQuadtree(unittest.TestCase):
-    def radio_igual_a_fuerza_bruta(self):
+    def test_radio_igual_a_fuerza_bruta(self):
         for _ in range(100):
             centro = punto_al_azar()
             self.assertEqual(sorted(radio_fuerza_bruta(entregas, centro, RADIO)),
                              sorted(arbol.buscar_en_radio(centro, RADIO)))
 
-    def cercanos_igual_a_fuerza_bruta(self):
+    def test_cercanos_igual_a_fuerza_bruta(self):
         for _ in range(100):
             ubicacion = punto_al_azar()
             self.assertEqual(cercanos_fuerza_bruta(entregas, ubicacion, 5),
                              arbol.mas_cercanos(ubicacion, 5))
 
-    def radio_sin_puntos(self):
+    def test_radio_sin_puntos(self):
         self.assertEqual(arbol.buscar_en_radio((-50000, -50000), RADIO), [])
 
-    def borde_del_radio_inclusivo(self):
+    def test_borde_del_radio_inclusivo(self):
         pequeno = construir_quadtree([(3, 4), (100, 100)])
         self.assertEqual(pequeno.buscar_en_radio((0, 0), 5), [(3, 4)])
 
-    def puntos_duplicados(self):
+    def test_puntos_duplicados(self):
         repetidos = construir_quadtree([(10, 10)] * 100 + [(500, 500)])
         self.assertEqual(len(repetidos.buscar_en_radio((10, 10), 1)), 100)
 
-    def pedir_mas_vecinos_que_puntos(self):
+    def test_pedir_mas_vecinos_que_puntos(self):
         pequeno = construir_quadtree([(1, 1), (2, 2), (3, 3)])
         self.assertEqual(len(pequeno.mas_cercanos((0, 0), 10)), 3)
 
